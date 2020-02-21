@@ -1,26 +1,19 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:flutterapicalls/Models/Responces/MyApplianceModel.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as JSON;
 import 'UI/ApplianceList.dart';
 import 'UI/BrandsList.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
@@ -38,13 +31,41 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  // int _counter = 0;
+  bool _isLoggedIn = false;
+  Map userProfile;
+  final facebookLogin = FacebookLogin();
 
-  // void _incrementCounter() {
-  //   setState(() {
-  //     _counter++;
-  //   });
-  // }
+  _loginWithFB() async {
+    final result = await facebookLogin.logInWithReadPermissions(['email']);
+
+    switch (result.status) {
+      case FacebookLoginStatus.loggedIn:
+        final token = result.accessToken.token;
+        final graphResponse = await http.get(
+            'https://graph.facebook.com/v2.12/me?fields=name,picture,email&access_token=${token}');
+        final profile = JSON.jsonDecode(graphResponse.body);
+        print(profile);
+        setState(() {
+          userProfile = profile;
+          _isLoggedIn = true;
+        });
+        break;
+
+      case FacebookLoginStatus.cancelledByUser:
+        setState(() => _isLoggedIn = false);
+        break;
+      case FacebookLoginStatus.error:
+        setState(() => _isLoggedIn = false);
+        break;
+    }
+  }
+
+  _logout() {
+    facebookLogin.logOut();
+    setState(() {
+      _isLoggedIn = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +74,34 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       //body: BrandList(),
-      body: ApplianceList(),
+      // body: ApplianceList(),
+      body: Center(
+          child: _isLoggedIn
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Image.network(
+                      userProfile["picture"]["data"]["url"],
+                      height: 50.0,
+                      width: 50.0,
+                    ),
+                    Text(userProfile["name"]),
+                    OutlineButton(
+                      child: Text("Logout"),
+                      onPressed: () {
+                        _logout();
+                      },
+                    )
+                  ],
+                )
+              : Center(
+                  child: OutlineButton(
+                    child: Text("Login with Facebook"),
+                    onPressed: () {
+                      _loginWithFB();
+                    },
+                  ),
+                )),
     );
   }
 }
