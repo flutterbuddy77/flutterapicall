@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutterapicalls/Models/BrandModel.dart';
+import 'package:flutterapicalls/Models/Requests/GetMyApplianceRequest.dart';
 import 'package:flutterapicalls/Models/Responces/MyApplianceModel.dart';
 import 'package:http/http.dart' as http;
 
 final _baseUrl = "http://103.50.163.29:5001/api";
 
 class TestApiProvider {
-  
   Future<BrandModel> fetchBrandList() async {
     print("entered");
     final response = await http.get(_baseUrl + "/Appliance/GetBrand");
@@ -21,18 +21,21 @@ class TestApiProvider {
     }
   }
 
-  Future<MyApplianceModel> fetchMyAppliance(int movieI) async {
-    final Map<String, dynamic> body = {
-      "UserId": 6,
-      "Creator": 0,
-      "Modifier": 0
-    };
+  Future<MyApplianceModel> fetchMyAppliance(
+      GetMyApplianceRequest movieI) async {
+    print(movieI.toString());
+
+    // final Map<String, dynamic> body = {
+    //   "UserId": 6,
+    //   "Creator": 0,
+    //   "Modifier": 0
+    // };
+
     try {
       final response = await http.post(
           Uri.encodeFull(_baseUrl + "/Appliance/GetMyAppliance"),
-           headers: {"Content-Type": "application/json"},
-          body: json.encode(body));
-
+          headers: {"Content-Type": "application/json"},
+          body: json.encode(movieI));
       print(response.body.toString());
 
       if (response.statusCode == 200) {

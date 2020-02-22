@@ -1,5 +1,6 @@
 import 'package:flutterapicalls/API/TestApiProvider.dart';
 import 'package:flutterapicalls/Models/BrandModel.dart';
+import 'package:flutterapicalls/Models/Requests/GetMyApplianceRequest.dart';
 import 'package:flutterapicalls/Models/Responces/MyApplianceModel.dart';
 
 class Repository {
@@ -7,6 +8,6 @@ class Repository {
 
   Future<BrandModel> fetchAllBrands() => testApiProvider.fetchBrandList();
 
-  Future<MyApplianceModel> fetchMyAppliance(int movieId) =>
+  Future<MyApplianceModel> fetchMyAppliance(GetMyApplianceRequest movieId) =>
       testApiProvider.fetchMyAppliance(movieId);
 }

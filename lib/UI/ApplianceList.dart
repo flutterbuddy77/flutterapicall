@@ -16,10 +16,10 @@ class _ApplianceListState extends State<ApplianceList>
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this);
-    final body = {
-      "UserId": 6,
-    };
-    myappliancesbloc.fetchMyAppliances(6);
+    GetMyApplianceRequest body =
+        new GetMyApplianceRequest(userId: 6, creator: 0, modifier: 0);
+
+    myappliancesbloc.fetchMyAppliances(body);
   }
 
   @override

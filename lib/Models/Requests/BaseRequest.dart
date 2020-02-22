@@ -1,6 +1,6 @@
 class BaseRequest {
-  final int Creator;
-  final int Modifier;
+  int Creator;
+  int Modifier;
   // final String title;
   // final String body;
 
