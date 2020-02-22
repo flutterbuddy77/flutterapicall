@@ -4,6 +4,7 @@ import 'package:flutterapicalls/Models/Requests/GetMyApplianceRequest.dart';
 import 'package:flutterapicalls/Models/Responces/MyApplianceModel.dart';
 
 class ApplianceList extends StatefulWidget {
+  static const String routeName = '/ApplianceList';
   @override
   _ApplianceListState createState() => _ApplianceListState();
 }

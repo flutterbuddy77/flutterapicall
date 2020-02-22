@@ -6,7 +6,7 @@ import '../main.dart';
 
 class FBLoginPage extends StatefulWidget {
   FBLoginPage({Key key, this.title}) : super(key: key);
-
+  static const String routeName = '/FBLoginPage';
   final String title;
 
   @override

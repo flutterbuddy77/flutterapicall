@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapicalls/widgets/AppDrawer.dart';
 
 import 'UI/ApplianceList.dart';
 import 'UI/BrandsList.dart';
@@ -34,6 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: AppDrawer(),
       //appBar: AppBar(title: Text(widget.title),),
       body: BrandList(),
       //body: ApplianceList(),

@@ -3,6 +3,7 @@ import 'package:flutterapicalls/Blocs/GetBrandBloc.dart';
 import 'package:flutterapicalls/Models/BrandModel.dart';
 
 class BrandList extends StatefulWidget {
+  static const String routeName = '/BrandList';
   @override
   _BrandListState createState() => _BrandListState();
 }
