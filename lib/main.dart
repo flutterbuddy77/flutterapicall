@@ -4,6 +4,7 @@ import 'package:flutterapicalls/widgets/AppDrawer.dart';
 import 'UI/ApplianceList.dart';
 import 'UI/BrandsList.dart';
 import 'UI/FBLogin.dart';
+import 'UI/GoogleAdMob.dart';
 
 void main() => runApp(MyApp());
 
@@ -37,8 +38,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       drawer: AppDrawer(),
       //appBar: AppBar(title: Text(widget.title),),
-      body: BrandList(),
+      //body: BrandList(),
       //body: ApplianceList(),
+      body: GoogleAdMob(),
     );
   }
 }
